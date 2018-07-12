@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Implementation-Title: Market_Simulator
+Implementation-Version: 0.0.1-SNAPSHOT
+Built-By: Monta
+Implementation-Vendor-Id: FX
+Build-Jdk: 1.8.0_171
+Implementation-URL: https://projects.spring.io/spring-boot/#/spring-bo
+ ot-starter-parent/Market_Simulator
+Created-By: Maven Integration for Eclipse
+
