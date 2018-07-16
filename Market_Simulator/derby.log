@@ -1,6 +1,6 @@
 ----------------------------------------------------------------
-Thu Jul 12 16:58:00 GMT+01:00 2018:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.1.0 - (1808820): instance a816c00e-0164-8f36-a3e8-00000cefc970 
+Thu Jul 12 17:07:30 GMT+01:00 2018:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.1.0 - (1808820): instance a816c00e-0164-8f3f-546f-00000cdb6248 
 on database directory memory:C:\Users\Monta\Documents\workspace-sts-3.9.4.RELEASE\Market_Simulator\testdb with class loader sun.misc.Launcher$AppClassLoader@2a139a55 
 Loaded from file:/C:/Users/Monta/.m2/repository/org/apache/derby/derby/10.14.1.0/derby-10.14.1.0.jar
 java.vendor=Oracle Corporation

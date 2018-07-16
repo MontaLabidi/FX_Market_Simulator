@@ -17,5 +17,5 @@ public interface UserService {
 
     User update(User user, int id);
 
-	User search(User user);
+	//String search(User user);
 }

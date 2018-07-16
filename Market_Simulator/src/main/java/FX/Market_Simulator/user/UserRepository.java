@@ -11,8 +11,9 @@ import java.util.List;
 
 public interface UserRepository extends CrudRepository<User, Integer> {
 
-	@Async
-	@Query("SELECT u FROM Users u WHERE u.username = :username and u.password = :password")
+	User findByUsername(String username);
+	
+	@Query("SELECT u FROM User u WHERE u.username = :username and u.password = :password")
 	public List<User> searchuser(@Param("username") String username,@Param("password") String password );
 	    
     
