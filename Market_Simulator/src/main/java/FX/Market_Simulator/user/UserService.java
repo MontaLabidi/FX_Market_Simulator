@@ -3,9 +3,11 @@ package FX.Market_Simulator.user;
 import java.util.List;
 import java.util.Optional;
 
+import org.springframework.http.ResponseEntity;
+
 public interface UserService {
 
-    User create(User user);
+    ResponseEntity<?> create(User user);
 
     User delete(int id);
     
@@ -17,5 +19,6 @@ public interface UserService {
 
     User update(User user, int id);
 
-	//String search(User user);
-}
+	ResponseEntity<?> authenticate(User user) throws Exception;
+
+	}

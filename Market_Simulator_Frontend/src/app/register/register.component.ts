@@ -4,6 +4,7 @@ import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { first } from 'rxjs/operators';
 
 import { AlertService, UserService } from '../_services';
+import { NavbarService } from 'src/app/_services/navbar.service';
 
 @Component({templateUrl: 'register.component.html'})
 export class RegisterComponent implements OnInit {
@@ -12,12 +13,16 @@ export class RegisterComponent implements OnInit {
     submitted = false;
 
     constructor(
+        private nav: NavbarService,
         private formBuilder: FormBuilder,
         private router: Router,
         private userService: UserService,
         private alertService: AlertService) { }
 
     ngOnInit() {
+
+      this.nav.showlog();
+
         this.registerForm = this.formBuilder.group({
             firstName: ['', Validators.required],
             lastName: ['', Validators.required],

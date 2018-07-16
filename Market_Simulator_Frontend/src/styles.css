@@ -3,5 +3,5 @@
 @import "~font-awesome/css/font-awesome.css";
 body {
 
-  background-color: #dee2e6;
+  background-color: #dee2e6 !important;
 }

@@ -7,14 +7,15 @@ import { User } from '../_models';
   templateUrl: './navbar.component.html'
 })
 export class NavbarComponent implements OnInit {
-  currentUser: User;
-  constructor( public nav: NavbarService ) {
-if (!nav.show){this.currentUser = JSON.parse(localStorage.getItem('currentUser'));}
+  
+  constructor( private nav: NavbarService ) {
+
 
   }
 
 
   ngOnInit() {
+
   }
 
 }
