@@ -1,9 +1,21 @@
-<h1>Hi {{currentUser.firstName}} {{currentUser.lastName}}!</h1>
-<p>You're logged in !</p>
-<!-- <h3>All registered users:</h3>
-<ul>
-    <li *ngFor="let user of users">
-        {{user.username}} ({{user.firstName}} {{user.lastName}})
-        - <a (click)="deleteUser(user.id)" class="text-danger">Delete</a>
-    </li>
-</ul> -->
+
+<div class="container ">
+  <!-- <div class="row justify-content-center">
+    <div class="col-3">
+        <img  style="width:200px;" align="center" src="assets/images/smalltridesr1.png">
+  </div>
+  </div > -->
+    <div class="row justify-content-center">
+        <div class="col-md-auto">
+          <h1>Hi {{currentUser.firstName}} {{currentUser.lastName}}!</h1>
+          <p>You're logged in !</p>
+          <!-- <h3>All registered users:</h3>
+          <ul>
+              <li *ngFor="let user of users">
+                  {{user.username}} ({{user.firstName}} {{user.lastName}})
+                  - <a (click)="deleteUser(user.id)" class="text-danger">Delete</a>
+              </li>
+          </ul> -->
+        </div>
+    </div>
+</div>
