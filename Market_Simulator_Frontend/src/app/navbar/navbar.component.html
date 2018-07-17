@@ -9,13 +9,13 @@
 </button> -->
 <ul  *ngIf="nav.show; else logout" class="navbar-nav ml-auto">
 
-  <li class="nav-item"><a class="nav-link" [routerLink]="['/register']" ><span class="fa fa-user-circle"></span> Sign Up</a></li>
-  <li class="nav-item"><a class="nav-link" [routerLink]="['/login']" ><span class="fa fa-sign-in"></span> Login</a></li>
+  <li class="nav-item"><a class="nav-link" [routerLink]="['/register']" ><span class="fa fa-user-plus" style="font-size:20px"></span> Sign Up</a></li>
+  <li class="nav-item"><a class="nav-link" [routerLink]="['/login']" ><span class="fa fa-sign-in" style="font-size:20px"></span> Login</a></li>
 </ul>
 <ng-template #logout>
 <ul  class="navbar-nav ml-auto">
   <li class="nav-item"><a class="nav-link" href="/user" ><span class="fa fa-input">{{nav.username}}</span></a></li>
-  <li class="nav-item"><a class="nav-link" [routerLink]="" (click)="auth.logout()" ><span class="fa fa-sign-out"></span> Logout</a></li>
+  <li class="nav-item"><a class="nav-link" (click)="auth.logout()" ><span class="fa fa-sign-out" style="font-size:20px"></span> Logout</a></li>
 </ul>
 </ng-template>
 </nav>
