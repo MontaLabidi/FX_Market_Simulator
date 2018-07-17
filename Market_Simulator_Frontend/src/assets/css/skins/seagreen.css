@@ -1,0 +1,31 @@
+.navbar {
+    background-color: #16a085;
+}
+
+.banner:before {
+
+    background-color: #16a085;
+}
+
+.banner-images a {
+    border: 2px solid #16a085;
+}
+
+.banner-images a:hover,
+.banner-images a:focus,
+.banner-images a:active {
+    border-color: #f4ba2f;
+}
+
+header .sticky {
+    background-color: #16a085;
+}
+
+footer {
+    background-color: #16a085;
+}
+
+
+.advanced .left-side-widget .table thead {
+    border-bottom: 1px solid #16a085;
+}
