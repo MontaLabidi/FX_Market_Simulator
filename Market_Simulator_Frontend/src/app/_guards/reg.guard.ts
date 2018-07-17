@@ -11,12 +11,9 @@ export class RegGuard implements CanActivate {
 
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot) {
       if (localStorage.getItem('currentUser')) {
-          // logged in so return true
-          this.router.navigate(['/']);
+          this.router.navigate(['/user']);
           return false;
       }
-
-      // not logged in so redirect to login page with the return url
 
       return true;
   }

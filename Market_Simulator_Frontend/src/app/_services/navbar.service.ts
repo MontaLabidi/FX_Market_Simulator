@@ -7,18 +7,21 @@ import { User } from '../_models';
   providedIn: 'root'
 })
 export class NavbarService {
-  show: boolean = false;
+  show: boolean =  true;
   currentUser: User;
   username: String;
     constructor(  private route: ActivatedRoute,
         private router: Router)
      { }
 
-  hide() { this.show = false;
+  hide() {console.log("bar hided");
+     this.show = false;
      this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
      this.username= this.currentUser.username;
    }
-  showlog() { this.show = true; }
+  showlog() {
+    console.log("bar showed");
+    this.show = true; }
 
 
     //   showlog() {

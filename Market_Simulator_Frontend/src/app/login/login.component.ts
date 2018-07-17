@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
       console.log(this.nav.show);
       this.nav.showlog();
       console.log(this.nav.show);
-      
+
         this.loginForm = this.formBuilder.group({
             username: ['', Validators.required],
             password: ['', Validators.required]
@@ -35,7 +35,7 @@ export class LoginComponent implements OnInit {
         this.authenticationService.logout();
 
         // get return url from route parameters or default to '/'
-        this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
+        this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/user';
     }
 
     // convenience getter for easy access to form fields

@@ -8,27 +8,27 @@ import { NavbarService } from 'src/app/_services/navbar.service';
 @Component({templateUrl: 'home.component.html'})
 export class HomeComponent implements OnInit {
     currentUser: User;
-    users: User[] = [];
 
-    constructor(private userService: UserService, public nav: NavbarService) {
+    constructor(public nav: NavbarService) {
         this.currentUser = JSON.parse(localStorage.getItem('currentUser'));
     }
 
     ngOnInit() {
+      if (this.currentUser)
         this.nav.hide();
-        this.loadAllUsers();
+
     }
 
-    deleteUser(id: number) {
-      console.log(id)
-        this.userService.delete(id).pipe(first()).subscribe(() => {
-            this.loadAllUsers()
-        });
-    }
-
-    private loadAllUsers() {
-        this.userService.getAll().pipe(first()).subscribe(users => {
-            this.users = users;
-        });
-    }
+    // deleteUser(id: number) {
+    //   console.log(id)
+    //     this.userService.delete(id).pipe(first()).subscribe(() => {
+    //         this.loadAllUsers()
+    //     });
+    // }
+    //
+    // private loadAllUsers() {
+    //     this.userService.getAll().pipe(first()).subscribe(users => {
+    //
+    //     });
+    // }
 }
