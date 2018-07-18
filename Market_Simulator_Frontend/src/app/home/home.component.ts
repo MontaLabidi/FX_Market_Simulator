@@ -5,7 +5,10 @@ import { User } from '../_models';
 import { UserService } from '../_services';
 import { NavbarService } from 'src/app/_services/navbar.service';
 
-@Component({templateUrl: 'home.component.html'})
+@Component({
+selector: 'app-home',
+templateUrl: 'home.component.html',
+styleUrls: ['./home.component.css']})
 export class HomeComponent implements OnInit {
     currentUser: User;
 

@@ -13,8 +13,9 @@ import { AlertService, AuthenticationService, UserService } from './_services';
 import { HomeComponent } from './home';
 import { LoginComponent } from './login';
 import { RegisterComponent } from './register';
-import { NavbarComponent } from './navbar/navbar.component';;
-import { UserComponent } from './user/user.component'
+import { NavbarComponent } from './navbar/navbar.component';
+import { UserComponent } from './user/user.component';
+import { ExchangeComponent } from './exchange/exchange.component';
 @NgModule({
     imports: [
         BrowserModule,
@@ -29,7 +30,8 @@ import { UserComponent } from './user/user.component'
         LoginComponent,
         RegisterComponent,
           NavbarComponent ,
-          UserComponent  ],
+          UserComponent ,
+          ExchangeComponent ],
     providers: [
         AuthGuard,
         AlertService,

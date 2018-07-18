@@ -449,11 +449,11 @@ footer .social ul li a:active {
 }
 
 
-#tradingview_35f2b {
+#tradingview_c3945 {
     height: 50vh!important;
 }
 
-#tradingview_35f2bc {
+#tradingview_c3945{
     height: 50vh!important;
 }
 
@@ -664,6 +664,17 @@ h6.right-side-widget-title {
     display: inline-block;
 }
 
+/* .tradingview-widget-container {
+    background-color: #eceff2;
+    border: 1px solid #ddd;
+    border-radius: 3px;
+    overflow: hidden;
+    font-size: 12px;
+    width: 980px;
+      height: 610px;
+      margin: 0 auto !important;
+      padding: 0 !important;
+} */
 .center-widget {
     background-color: #eceff2;
     border: 1px solid #ddd;
