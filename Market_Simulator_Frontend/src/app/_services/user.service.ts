@@ -9,7 +9,7 @@ export class UserService {
 
   constructor(private http:HttpClient) {  }
 
-  //private userUrl = 'http://localhost:8080/api/user';
+  
   private userUrl = '/api';
 
   public getById(id: number) {
