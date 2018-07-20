@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import java.nio.file.AccessDeniedException;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import javax.persistence.EntityNotFoundException;
 
@@ -30,6 +31,8 @@ public class UserServiceImpl implements UserService {
     public ResponseEntity<?> create(User user){
     	if(userRepository.findByUsername(user.getUsername()) == null) {
     		user.setPassword(passwordEncoder.encode(user.getPassword()));
+    		Map<String, Double> wallet =user.getWallet();
+    		wallet.put("USD", 1000.0);
         	userRepository.save(user);
         	return new ResponseEntity<>(HttpStatus.OK);
         			}
@@ -56,7 +59,8 @@ public class UserServiceImpl implements UserService {
     @Override
     public User delete(int id) {
     	
-        User user = userRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("User Not Found !"));
+        User user = userRepository.findById(id).orElseThrow(()
+        		-> new EntityNotFoundException("User Not Found !"));
         userRepository.deleteById(id);
         return user;
     }
@@ -81,11 +85,28 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User update(User user, int id) {
-    	Optional<User> DB_user = findById(id);
-        if(DB_user.isPresent()){
-            userRepository.delete(user);
+    public User update(User user) {
+    	
+        if(findById(user.getId()).isPresent()){
+        	user.setPassword(passwordEncoder.encode(user.getPassword()));
+        	return userRepository.save(user); 
         }
-        return userRepository.save(user); 
-        }
+        throw new EntityNotFoundException("User Not Found !");
+    }
+
+	@Override
+	public Map<String, Double> wallet(int id) {
+		User user =userRepository.findById(id).orElseThrow(()
+				-> new EntityNotFoundException("User Not Found !"));
+		return user.getWallet();
+	}
+
+	@Override
+	public  String wallet_currency(int id, String currency_id) {
+		User user =userRepository.findById(id).orElseThrow(()
+				-> new EntityNotFoundException("User Not Found !"));
+		return user.getWallet().get(currency_id).toString();
+	}
+
+	
 }

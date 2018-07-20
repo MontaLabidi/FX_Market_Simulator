@@ -13,24 +13,24 @@ export class UserService {
   private userUrl = '/api';
 
   public getById(id: number) {
-    return this.http.get<User>(this.userUrl + '/' + id);
+    return this.http.get<User>(this.userUrl + '/user=' + id);
   }
   public getAll() {
 
-    return this.http.get<User[]>('/api');
+    return this.http.get<User[]>(this.userUrl +'/users');
   }
 
   public delete(id: number) {
-    return this.http.delete(this.userUrl + "/"+id);
+    return this.http.delete(this.userUrl + "/user="+id);
   }
   public deleteAllUsers() {
-    return this.http.delete(this.userUrl + "/");
+    return this.http.delete(this.userUrl + "/users");
   }
   public register(user) {
-    return this.http.post<User>(this.userUrl+"/", user);
+    return this.http.post<User>(this.userUrl+"/user", user);
   }
-  public update(user: User) {
-    return this.http.put(this.userUrl + '/' + user.id, user);
+  public update(user) {
+    return this.http.put(this.userUrl + '/user', user);
   }
 
 }

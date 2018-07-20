@@ -1,12 +1,13 @@
-<div class="col">
+<div  class="row justify-content-center">
+<div class="col-6 ">
   <h2>Login</h2>
   <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
       <div class="form-group">
         <label for="username">Username</label>
-           <div class="input-group">
-          <div class="input-group-prepend fa">
-          <span class="input-group-text" id="basic-addon1">&#xf2c0;</span>
-        </div>
+           <div class="input-group" >
+           <div class="input-group-prepend" style="font-size:30px">
+            <span class="input-group-text fa" >&#xf2c0;</span>
+           </div>
           <input type="text" formControlName="username" placeholder=" Username"  class="form-control" [ngClass]="{ 'is-invalid': submitted && f.username.errors }" />
           <div *ngIf="submitted && f.username.errors" class="invalid-feedback">
               <div *ngIf="f.username.errors.required">Username is required</div>
@@ -16,7 +17,7 @@
       <div class="form-group">
         <label class="fa" for="password"> Password</label>
         <div class="input-group">
-          <div class="input-group-prepend">
+          <div class="input-group-prepend" style="font-size:30px">
             <span class="input-group-text fa" >&#xf13e;</span>
           </div>
           <input type="password" formControlName="password"  class="form-control" placeholder=" Password"  [ngClass]="{ 'is-invalid': submitted && f.password.errors }" />
@@ -37,4 +38,5 @@
   <div class="container">
     <p align="center" class="text-muted">© 2017-2018</p>
   </div>
+</div>
 </div>

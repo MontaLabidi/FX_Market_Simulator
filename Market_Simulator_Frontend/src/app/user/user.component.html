@@ -1,21 +1,43 @@
+<div class="row ">
+      <!-- <div class="col-md-auto">
+        <h2> {{currentUser.firstName}} {{currentUser.lastName}}!</h2>
+         -->
+        <div class="col-md-6">
+          <h2> User Details</h2>
 
-<div class="container ">
-  <!-- <div class="row justify-content-center">
-    <div class="col-3">
-        <img  style="width:200px;" align="center" src="assets/images/smalltridesr1.png">
-  </div>
-  </div > -->
-    <div class="row justify-content-center">
-        <div class="col-md-auto">
-          <h1>Hi {{currentUser.firstName}} {{currentUser.lastName}}!</h1>
-          <p>You're logged in !</p>
-          <!-- <h3>All registered users:</h3>
-          <ul>
-              <li *ngFor="let user of users">
-                  {{user.username}} ({{user.firstName}} {{user.lastName}})
-                  - <a (click)="deleteUser(user.id)" class="text-danger">Delete</a>
-              </li>
-          </ul> -->
+          <table class="table table-striped">
+            <tbody>
+            <tr >
+              <td >First name</td>
+              <td>{{user.firstName}}</td>
+            </tr>
+            <tr >
+              <td >Last name</td>
+              <td>{{user.lastName}}</td>
+            </tr>
+            <tr >
+              <td >Username</td>
+              <td>{{user.username}}</td>
+            </tr>
+            <tr >
+              <td >Email</td>
+              <td>{{user.email}}</td>
+            </tr>
+            </tbody>
+          </table>
+          <h3> Wallet</h3>
+
+          <table class="table table-striped">
+            <tbody>
+            <tr *ngFor="let key of keys" >
+              <td>{{key}}</td>
+              <td>{{wallet[key]}}</td>
+
+            </tr>
+            </tbody>
+          </table>
+            <button class="btn btn-success" (click)="editUser(user)"> Edit Account</button>
+          <button class="btn btn-danger" (click)="delete(user)"> Delete Account</button>
         </div>
-    </div>
-</div>
+
+  </div>

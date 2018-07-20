@@ -1,6 +1,13 @@
 package FX.Market_Simulator.user;
 
+
+import java.util.HashMap;
+import java.util.Map;
+
 import javax.persistence.*;
+
+
+
 
 @Entity
 //the name of the table has to be changed since User is not accepted by apache derby embedded database   
@@ -22,10 +29,23 @@ public class User {
     @Column
     private String password;
     
-    
-    
-    public String getUsername() {
+    @ElementCollection
+    @JoinTable(name="Wallet", joinColumns=@JoinColumn(name="user_ID"))
+    @MapKeyColumn (name="currency")
+    @Column(name="amount")
+    private Map<String, Double> Wallet= new HashMap<String, Double>();
+ 
+
+	public String getUsername() {
 		return username;
+	}
+
+	public Map<String, Double> getWallet() {
+		return Wallet;
+	}
+
+	public void setWallet(Map<String, Double> wallet) {
+		Wallet = wallet;
 	}
 
 	public void setUsername(String username) {

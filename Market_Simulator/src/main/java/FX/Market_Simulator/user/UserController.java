@@ -5,6 +5,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 @EnableAutoConfiguration
@@ -15,7 +16,7 @@ public class UserController {
 	@Autowired
     private UserService userService;   
     
-    @PostMapping(path ={"/"})
+    @PostMapping(path ={"/user"})
     public ResponseEntity<?> create(@RequestBody User user){
     	return userService.create(user);
     	}
@@ -24,29 +25,39 @@ public class UserController {
     public ResponseEntity<?> authenticate (@RequestBody User user) throws Exception {
     	return userService.authenticate(user);
     }   
-    @GetMapping(path = {"/{id}"})
+    @GetMapping(path = {"/user={id}"})
     public Optional<User> findById(@PathVariable("id") int id){
         return userService.findById(id);
     }
 
-    @PutMapping(path = {"/{id}"})
-    public User update(@RequestBody User user, @PathVariable("id") int id){
-        return userService.update(user, id);
+    @PutMapping(path = {"/user"})
+    public User update(@RequestBody User user){
+        return userService.update(user);
     }
 
-    @DeleteMapping(path ={"/{id}"})
+    @DeleteMapping(path ={"/user={id}"})
     public ResponseEntity<?> delete(@PathVariable("id") int id) {
        User user = userService.delete(id);
         return new ResponseEntity<>(user,HttpStatus.OK);
     }
-    @DeleteMapping(path ={"/"})
+    @DeleteMapping(path ={"/users"})
     public void deleteAll() {
          userService.deleteAll();
          return ;
     }
 
-    @GetMapping
+    @GetMapping(path ={"/users"})
     public List<User> findAll(){
         return userService.findAll();
+    }
+    
+    @GetMapping(path ={"/user={id}/wallet"})
+    public  Map<String, Double> wallet(@PathVariable("id") int id){
+        return userService.wallet(id);
+    }
+    
+    @GetMapping(path ={"/user={id}/wallet/currency={currency_id}"})
+    public  String wallet(@PathVariable("id") int id, @PathVariable("currency_id") String currency_id){
+        return userService.wallet_currency(id, currency_id);
     }
 }

@@ -1,6 +1,7 @@
 package FX.Market_Simulator.user;
 
 import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
@@ -17,8 +18,12 @@ public interface UserService {
 
     Optional<User> findById(int id);
 
-    User update(User user, int id);
+    User update(User user);
 
 	ResponseEntity<?> authenticate(User user) throws Exception;
+
+	Map<String, Double> wallet(int id);
+
+	String wallet_currency(int id, String currency_id);
 
 	}

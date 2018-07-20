@@ -7,6 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import FX.Market_Simulator.Currency.Currency;
 import FX.Market_Simulator.user.User;
 
 @Entity   
@@ -17,16 +18,39 @@ public class Operation {
    
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
-    @ManyToOne
+    public Currency getCurrency() {
+		return currency;
+	}
+	public void setCurrency(Currency currency) {
+		this.currency = currency;
+	}
+	@ManyToOne
     private User user; //the user who performed the operation
    
-    private String currency ; //example USD/EUR
+    @ManyToOne
+    private Currency currency;
     
-    private float quote; // USD/EUR quote of .91 means that you’ll receive 0.91 euros for every US dollar you sell
+    private double quote; // USD/EUR quote of .91 means that you’ll receive 0.91 euros for every US dollar you sell
     
     private String operation; //either S(sell) or B (buy) 
     
-    public int getId() {
+    private double amount ;
+    
+    private double price ;
+    
+    public double getAmount() {
+		return amount;
+	}
+	public void setAmount(double amount) {
+		this.amount = amount;
+	}
+	public double getPrice() {
+		return price;
+	}
+	public void setPrice(double price) {
+		this.price = price;
+	}
+	public int getId() {
 		return id;
 	}
 	public void setId(int id) {
@@ -38,17 +62,11 @@ public class Operation {
 	public void setUser(User user) {
 		this.user = user;
 	}
-	public String getCurrency() {
-		return currency;
-	}
-	public void setCurrency(String currency) {
-		this.currency = currency;
-	}
 	
-	public float getQuote() {
+	public double getQuote() {
 		return quote;
 	}
-	public void setQuote(float quote) {
+	public void setQuote(double quote) {
 		this.quote = quote;
 	}
 	public String getOperation() {

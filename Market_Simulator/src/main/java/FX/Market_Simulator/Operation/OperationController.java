@@ -24,15 +24,12 @@ public class OperationController {
     private UserService userService;
 	
 	
-    @PostMapping(path = {"/user/{user_id}/operation"})
-    public Operation create(@RequestBody Operation operation,@PathVariable("user_id") int user_id){
-    	operation.setUser(userService.findById(user_id).orElseThrow(() -> new EntityNotFoundException("User Not Found !")));
-    	
-        return	operationService.create(operation);
-  
+    @PostMapping(path = {"/user={user_id}/currency={currency_id}/operation"})
+    public Operation create(@RequestBody Operation operation,@PathVariable("user_id") int user_id, @PathVariable("currency_id") int currency_id){
+        return	operationService.create(operation,user_id,currency_id);
     }
     
-    @GetMapping(path = {"user/{user_id}/operation/{id}"})
+    @GetMapping(path = {"/user={user_id}/operation={id}"})
     public Operation findById(@PathVariable("id") int id, @PathVariable("user_id") int user_id) throws Exception{
     	userService.findById(user_id).orElseThrow(() -> new EntityNotFoundException("User Not Found !"));
     	Operation operation=operationService.findById(id).orElseThrow(() -> new EntityNotFoundException("Operation Not Found !"));
@@ -40,12 +37,12 @@ public class OperationController {
     		throw new BadRequestException("Bad request !");
     	return operation;
     }
-    @GetMapping(path = {"user/{user_id}/operation"})
+    @GetMapping(path = {"/user={user_id}/operations"})
     public List<Operation> findByUserId(@PathVariable("user_id") int user_id){
         return operationService.findByUserId(user_id);
     }
    
-    @DeleteMapping(path = {"user/{user_id}/operation/{id}"})
+    @DeleteMapping(path = {"/user={user_id}/operation={id}"})
     public Operation delete(@PathVariable("id") int id, @PathVariable("user_id") int user_id) {
     	userService.findById(user_id).orElseThrow(() -> new EntityNotFoundException("User Not Found !"));
     	Operation operation=operationService.findById(id).orElseThrow(() -> new EntityNotFoundException("Operation Not Found !"));
@@ -54,15 +51,22 @@ public class OperationController {
        
         return operationService.delete(id);
     }
-    @DeleteMapping(path = {"user/{user_id}/operation"})
+    @DeleteMapping(path = {"/user={user_id}/operations"})
     public ResponseEntity<?> deleteAllByUser(@PathVariable("user_id") int user_id) {
     	List<Operation> operations =operationService.findByUserId(user_id);
          operationService.deleteAllByUser(operations);
          return new ResponseEntity<>(operations,HttpStatus.OK); 
     }
 
-    @GetMapping(path = {"/operation"})
+    @GetMapping(path = {"/operations"})
     public List<Operation> findAll(){
         return operationService.findAll();
+        
+    }
+
+    @DeleteMapping(path = {"/operation"})
+    public void DeleteAll(){
+        operationService.deleteAll();
+        return ;
     }
 }

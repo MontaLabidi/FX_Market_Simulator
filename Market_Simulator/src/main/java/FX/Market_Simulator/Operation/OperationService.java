@@ -5,7 +5,7 @@ import java.util.Optional;
 
 public interface OperationService {
 
-	Operation create(Operation Operation);
+	Operation create(Operation Operation, int user_id, int currency_id);
 
 	Operation delete(int id);
 
