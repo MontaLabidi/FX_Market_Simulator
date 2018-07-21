@@ -85,14 +85,17 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public User update(User user) {
-    	
-        if(findById(user.getId()).isPresent()){
+    public User update(User user) throws Exception {
+    	User DB_user=userRepository.findById(user.getId()).orElseThrow(()
+				-> new EntityNotFoundException("User Not Found !"));
+    	if (passwordEncoder.matches(user.getPassword(),
+				DB_user.getPassword())) {
         	user.setPassword(passwordEncoder.encode(user.getPassword()));
-        	return userRepository.save(user); 
-        }
-        throw new EntityNotFoundException("User Not Found !");
-    }
+        	user.setWallet(DB_user.getWallet());
+        	return userRepository.save(user); }
+    	else 
+    	 throw new AccessDeniedException("password is incorrect"); 
+      }
 
 	@Override
 	public Map<String, Double> wallet(int id) {

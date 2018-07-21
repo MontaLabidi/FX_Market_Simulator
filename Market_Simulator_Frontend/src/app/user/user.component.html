@@ -3,41 +3,49 @@
         <h2> {{currentUser.firstName}} {{currentUser.lastName}}!</h2>
          -->
         <div class="col-md-6">
-          <h2> User Details</h2>
-
+          <div class="container" style="margin-bottom:20px;">
+            <h4><i class="far fa-id-card"></i> User Info</h4>
+          </div>
           <table class="table table-striped">
             <tbody>
             <tr >
-              <td >First name</td>
+              <th>First name</th>
               <td>{{user.firstName}}</td>
             </tr>
             <tr >
-              <td >Last name</td>
+              <th>Last name</th>
               <td>{{user.lastName}}</td>
             </tr>
             <tr >
-              <td >Username</td>
+              <th>Username</th>
               <td>{{user.username}}</td>
             </tr>
             <tr >
-              <td >Email</td>
+              <th >Email</th>
               <td>{{user.email}}</td>
             </tr>
-            </tbody>
-          </table>
-          <h3> Wallet</h3>
+          </tbody>
+        </table>
+            <button class="btn btn-outline-success float-left" (click)="editUser(user)">
+                  <i class="fa fa-edit"></i> Edit Account</button>
+            <button class="btn btn-outline-danger float-right" (click)="delete(user)">
+                 <i class="fa fa-trash-o"></i> Delete Account</button>
 
-          <table class="table table-striped">
+
+        </div>
+        <div class="col-md-6">
+          <div class="container" style="margin-bottom:20px;">
+            <h4><i class="far fa-credit-card"></i> Wallet</h4>
+          </div>
+          <table class="table table-borderless ">
             <tbody>
             <tr *ngFor="let key of keys" >
-              <td>{{key}}</td>
+              <th>{{key}}</th>
               <td>{{wallet[key]}}</td>
 
             </tr>
             </tbody>
           </table>
-            <button class="btn btn-success" (click)="editUser(user)"> Edit Account</button>
-          <button class="btn btn-danger" (click)="delete(user)"> Delete Account</button>
-        </div>
+            </div>
 
   </div>

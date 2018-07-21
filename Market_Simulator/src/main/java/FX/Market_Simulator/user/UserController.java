@@ -31,7 +31,7 @@ public class UserController {
     }
 
     @PutMapping(path = {"/user"})
-    public User update(@RequestBody User user){
+    public User update(@RequestBody User user) throws Exception{
         return userService.update(user);
     }
 

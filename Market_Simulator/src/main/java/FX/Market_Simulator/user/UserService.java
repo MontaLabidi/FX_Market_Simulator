@@ -18,7 +18,7 @@ public interface UserService {
 
     Optional<User> findById(int id);
 
-    User update(User user);
+    User update(User user) throws Exception;
 
 	ResponseEntity<?> authenticate(User user) throws Exception;
 

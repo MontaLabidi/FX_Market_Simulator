@@ -16,7 +16,7 @@ import { AlertService } from 'src/app/_services/alert.service';
 export class EditUserComponent implements OnInit {
   loading = false;
   submitted = false;
-  user: User;
+  private user: User;
   EditForm: FormGroup;
   constructor(private formBuilder: FormBuilder,
               private router: Router,
@@ -25,6 +25,7 @@ export class EditUserComponent implements OnInit {
 
 
   ngOnInit() {
+    console.log(this.user);
     this.user= JSON.parse(localStorage.getItem('currentUser'));
       this.EditForm = this.formBuilder.group({
         id:[''],
@@ -34,7 +35,7 @@ export class EditUserComponent implements OnInit {
         email: ['', Validators.required],
         password: ['', [Validators.required, Validators.minLength(6),Validators.maxLength(20)]]
     });
-    this.userService.getById(+this.user.id)
+    this.userService.getById(this.user.id)
       .subscribe( data => {
         this.EditForm.setValue({
           "id": data.id,
@@ -59,15 +60,19 @@ export class EditUserComponent implements OnInit {
 
         this.loading = true;
         this.userService.update(this.EditForm.value)
-        .subscribe(
-                data => {
+        .subscribe( user => {this.user=user;
+                        //console.log(user);
+                        console.log(this.user);
+                    localStorage.removeItem("currentUser");
+                    localStorage.setItem("currentUser",JSON.stringify(this.user));
                     this.alertService.success('Update successful', true);
-                    this.router.navigate(['/login']);
+                    this.router.navigate(['/user']);
                 },
                 error => {
                     this.alertService.error(error);
                     this.loading = false;
                 });
+
     }
 
 

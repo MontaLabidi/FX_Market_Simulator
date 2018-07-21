@@ -9,7 +9,7 @@ export class UserService {
 
   constructor(private http:HttpClient) {  }
 
-  
+
   private userUrl = '/api';
 
   public getById(id: number) {
@@ -30,7 +30,7 @@ export class UserService {
     return this.http.post<User>(this.userUrl+"/user", user);
   }
   public update(user) {
-    return this.http.put(this.userUrl + '/user', user);
+    return this.http.put<User>(this.userUrl + '/user', user);
   }
 
 }

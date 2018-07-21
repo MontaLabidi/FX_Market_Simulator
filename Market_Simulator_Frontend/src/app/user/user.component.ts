@@ -35,7 +35,7 @@ export class UserComponent implements OnInit {
     // this.wallet[key];
     // console.log('key is ' + key + ' Value is ' +   this.wallet[key] );
   });
-  console.log(this.keys);
+  //console.log(this.keys);
 
   }
   delete(user: User): void {
