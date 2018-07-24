@@ -32,6 +32,9 @@ export class UserService {
   public update(user) {
     return this.http.put<User>(this.userUrl + '/user', user);
   }
+  public wallet(id: number) {
+    return this.http.get<any>(this.userUrl + '/user='+id+'/wallet');
+  }
 
 }
 // export class UserService {

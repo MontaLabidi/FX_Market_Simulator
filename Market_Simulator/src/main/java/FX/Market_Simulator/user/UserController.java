@@ -1,7 +1,6 @@
 package FX.Market_Simulator.user;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
@@ -37,8 +36,8 @@ public class UserController {
 
     @DeleteMapping(path ={"/user={id}"})
     public ResponseEntity<?> delete(@PathVariable("id") int id) {
-       User user = userService.delete(id);
-        return new ResponseEntity<>(user,HttpStatus.OK);
+        return   userService.delete(id);
+     
     }
     @DeleteMapping(path ={"/users"})
     public void deleteAll() {

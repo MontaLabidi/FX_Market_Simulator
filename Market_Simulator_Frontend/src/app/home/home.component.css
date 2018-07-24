@@ -58,14 +58,14 @@ img.logo {
     padding: 0;
 }
 
-.navbar-toggler-icon {
+/* .navbar-toggler-icon {
     background-image: url(src/assets/img/menu.svg);
     background-color: #fff;
     background-size: 50%;
     width: 2em;
     height: 2em;
     border-radius: 2px;
-}
+} */
 
 .navbar-nav .nav-link {
     color: #fff;
@@ -125,7 +125,7 @@ header {
     z-index: 2
 }
 
-.banner:after {
+/* .banner:after {
     content: ' ';
     display: block;
     position: absolute;
@@ -136,7 +136,7 @@ header {
     background-image: url(src/assets/img/banner-pattern.jpg);
     background-size: cover;
     background-position: center center;
-}
+} */
 
 .banner h1 {
     text-align: center;
@@ -1597,4 +1597,16 @@ input:checked+.slider {
 .withdarw-box .imp {
     padding: 20px;
     background-color: #f4f4f4;
+}
+.banner1 h1{
+    text-align: center;
+    font-size: 1.8em;
+    font-weight: 900;
+    color: #f4ba2f;
+}
+.banner1 .links {
+    text-align: center;
+    margin-top: 1em;
+    color: #aaa;
+    font-size: 12px;
 }

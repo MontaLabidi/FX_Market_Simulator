@@ -57,12 +57,12 @@ public class UserServiceImpl implements UserService {
 
 
     @Override
-    public User delete(int id) {
+    public ResponseEntity<String> delete(int id) {
     	
-        User user = userRepository.findById(id).orElseThrow(()
+        userRepository.findById(id).orElseThrow(()
         		-> new EntityNotFoundException("User Not Found !"));
         userRepository.deleteById(id);
-        return user;
+        return new ResponseEntity<>("{\"message\": \"User deleted !\"}",HttpStatus.OK);
     }
 
     @Override

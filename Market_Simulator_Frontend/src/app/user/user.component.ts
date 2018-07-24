@@ -4,6 +4,7 @@ import { UserService } from '../_services';
 import { NavbarService } from 'src/app/_services/navbar.service';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/_services/authentication.service';
+import { AlertService } from 'src/app/_services/alert.service';
 
 @Component({
   selector: 'app-user',
@@ -13,12 +14,14 @@ import { AuthenticationService } from 'src/app/_services/authentication.service'
 export class UserComponent implements OnInit {
 
   user: User;
-  wallet :any[];
+  wallet :any;
   keys = [];
   constructor(private router: Router,
     private userService: UserService,
      public nav: NavbarService,
-      private auth: AuthenticationService) {
+      private auth: AuthenticationService,
+    private alertService: AlertService) {
+
 
   }
 
@@ -26,28 +29,29 @@ export class UserComponent implements OnInit {
 
       this.nav.hide();
       this.user = JSON.parse(localStorage.getItem('currentUser'));
-      this.wallet = JSON.parse(localStorage.getItem('currentUser')).wallet;
+      this.userService.wallet(this.user.id).subscribe(
+        wallet=> {
+          this.wallet =wallet;
+        this.keys =Object.keys(this.wallet);
+        console.log(this.keys);}
+      );
 
 
-    //console.log(this.wallet);
-    Object.keys(this.wallet).forEach(key => {
-    this.keys.push(key);
-    // this.wallet[key];
-    // console.log('key is ' + key + ' Value is ' +   this.wallet[key] );
-  });
-  //console.log(this.keys);
 
   }
   delete(user: User): void {
     if (window.confirm('Delete this Account?'))
     {    this.userService.delete(user.id)
-      .subscribe( data => {
-          this.auth.logout();})
-        }
-    else{    }
+      .subscribe( user =>{
+          this.auth.logout();
+        },
+      error => {
+          this.alertService.error(error);
+
+      });}
 
 
-      }
+  }
 
   editUser(user: User): void {
     localStorage.removeItem("currentUser");

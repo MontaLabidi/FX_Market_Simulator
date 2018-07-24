@@ -7,7 +7,13 @@
     <div class="row justify-content-center">
         <div class="col-md-auto">
           <!-- <h3>Welcome to the market Simulator</h3> -->
-          
+          <div class="banner1 ">
+            <h1>Market Simulator - Exchange The World</h1>
+            <div *ngIf="!currentUser"class="links">
+                <p><a [routerLink]="['/register']">Create Account</a>
+                  <span class="line"></span>Already Registered? <a  [routerLink]="['/login']">Login</a></p>
+            </div>
+          </div>
           <div class="page-container">
               <div class="container">
                   <div class="row statistics-widget">

@@ -26,26 +26,26 @@ public class OperationController {
 	
     @PostMapping(path = {"/user={user_id}/currency={currency_id}/operation"})
     public Operation create(@RequestBody Operation operation,@PathVariable("user_id") int user_id, @PathVariable("currency_id") int currency_id){
-        return	operationService.create(operation,user_id,currency_id);
+    
+    	return	operationService.create(operation,user_id,currency_id);
     }
     
-    @GetMapping(path = {"/user={user_id}/operation={id}"})
+    @GetMapping(path = {"/operation={id}"})
     public Operation findById(@PathVariable("id") int id, @PathVariable("user_id") int user_id) throws Exception{
-    	userService.findById(user_id).orElseThrow(() -> new EntityNotFoundException("User Not Found !"));
-    	Operation operation=operationService.findById(id).orElseThrow(() -> new EntityNotFoundException("Operation Not Found !"));
-    	if(operation.getUser().getId()!=user_id)
-    		throw new BadRequestException("Bad request !");
-    	return operation;
+    	
+    	return operationService.findById(id).orElseThrow(() -> new EntityNotFoundException("Operation Not Found !"));
+    	
+    	
     }
     @GetMapping(path = {"/user={user_id}/operations"})
     public List<Operation> findByUserId(@PathVariable("user_id") int user_id){
         return operationService.findByUserId(user_id);
     }
    
-    @DeleteMapping(path = {"/user={user_id}/operation={id}"})
+    @DeleteMapping(path = {"/operation={id}"})
     public Operation delete(@PathVariable("id") int id, @PathVariable("user_id") int user_id) {
-    	userService.findById(user_id).orElseThrow(() -> new EntityNotFoundException("User Not Found !"));
-    	Operation operation=operationService.findById(id).orElseThrow(() -> new EntityNotFoundException("Operation Not Found !"));
+    	Operation operation=operationService.findById(id).orElseThrow(() 
+    			-> new EntityNotFoundException("Operation Not Found !"));
     	if(operation.getUser().getId()!=user_id)
     		throw new BadRequestException("Bad request !");
        

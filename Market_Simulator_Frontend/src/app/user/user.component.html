@@ -2,7 +2,7 @@
       <!-- <div class="col-md-auto">
         <h2> {{currentUser.firstName}} {{currentUser.lastName}}!</h2>
          -->
-        <div class="col-md-6">
+        <div class="col-sm-6">
           <div class="container" style="margin-bottom:20px;">
             <h4><i class="far fa-id-card"></i> User Info</h4>
           </div>
@@ -30,14 +30,18 @@
                   <i class="fa fa-edit"></i> Edit Account</button>
             <button class="btn btn-outline-danger float-right" (click)="delete(user)">
                  <i class="fa fa-trash-o"></i> Delete Account</button>
-
-
-        </div>
-        <div class="col-md-6">
+          </div>
+        <div class="col-sm-6">
           <div class="container" style="margin-bottom:20px;">
             <h4><i class="far fa-credit-card"></i> Wallet</h4>
           </div>
           <table class="table table-borderless ">
+            <thead >
+            <tr>
+            <th>Currency</th>
+            <th>Amount</th>
+            </tr>
+            </thead>
             <tbody>
             <tr *ngFor="let key of keys" >
               <th>{{key}}</th>
@@ -46,6 +50,11 @@
             </tr>
             </tbody>
           </table>
-            </div>
+          <button class="btn btn-outline-info float-left" (click)="viewOperation(user)">
+               <i class="far fa-list-alt"></i> Recent Activities</button>
+         <button class="btn btn-outline-info float-right" [routerLink]="['/exchange']">
+                    <i class="far fa-chart-bar"></i> Exchange</button>
+
+          </div>
 
   </div>

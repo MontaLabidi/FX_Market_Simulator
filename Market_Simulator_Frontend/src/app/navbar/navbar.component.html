@@ -1,6 +1,6 @@
-<nav class="navbar navbar-expand-sm bg-dark navbar-dark py-sm-0">
+<nav class="navbar navbar-expand-sm bg-light navbar-light py-sm-0">
     <a class="navbar-brand nav-link " [routerLink]="['/']" >
-       <span class="navbar-brand mb-0 h1">Market Simulator</span>
+       <span class="navbar-brand mb-0 h1" style="color: #f4ba2f;">Market Simulator</span>
     </a>
     <ul  *ngIf="nav.show; else logout" class="navbar-nav ml-auto mr-2 my-sm-2">
       <li class="nav-item "><a class="nav-link" [routerLink]="['/register']" >
@@ -16,7 +16,7 @@
       </li>
       <li class="nav-item mx-sm-2">
         <a class="nav-link" [routerLink]="['/exchange']" >
-          <i class="far fa-money-bill-alt" style="font-size:20px"></i></a>
+          <i class="far fa-chart-bar" style="font-size:20px"></i></a>
       </li>
       <li class="nav-item mx-sm-2">
         <a class="nav-link" href="#" >

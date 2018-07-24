@@ -22,6 +22,7 @@ export class LoginComponent implements OnInit {
         private alertService: AlertService) {}
 
     ngOnInit() {
+      
       console.log(this.nav.show);
       this.nav.showlog();
       console.log(this.nav.show);

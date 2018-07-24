@@ -1,6 +1,15 @@
 import { Component, OnInit } from '@angular/core';
 import { TradingViewwidget } from '../../assets/js/script';
 import { NavbarService } from '../_services';
+import { CurrencyService } from '../_services/currency.service';
+import { first } from 'rxjs/internal/operators/first';
+import { Currency } from '../_models';
+import { OperationService } from '../_services/operation.service';
+import { Validators } from '@angular/forms';
+import { FormBuilder } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
+import { User } from 'src/app/_models/user';
+import { AlertService } from 'src/app/_services/alert.service';
 
 @Component({
   selector: 'app-exchange',
@@ -8,24 +17,90 @@ import { NavbarService } from '../_services';
   styleUrls: ['./exchange.component.css']
 })
 export class ExchangeComponent implements OnInit {
+  operation: { "operation": any; "amount": any; "price": any; };
+  user: User;
+  public currencies: Currency[];
+  public currentCurrency: Currency;
+  orderForm: FormGroup;
+  loading = false;
+  submitted_buy = false;
+  submitted_sell = false;
 
-  constructor(private nav : NavbarService) { }
-
+  constructor
+  (private nav : NavbarService,
+   private formBuilder: FormBuilder,
+   private currencyService:CurrencyService,
+   private alertService: AlertService,
+   private operationService:OperationService) {
+}
   ngOnInit() {
-    this.nav.hide()
+    this.user = JSON.parse(localStorage.getItem('currentUser'));
+    this.currencyService.getById(1).subscribe( Currency=>
+    this.currentCurrency=Currency
+    );
+    this.loadAllCurrencies();
+    this.nav.hide();
     TradingViewwidget();
+  this.orderForm = this.formBuilder.group({
+      Price: ['', Validators.required],
+     Amount: ['', Validators.required]
+  });
 
   }
-  // public loadScript(url: string) {
-  //           let body = <HTMLDivElement> document.body;
-  //           let script = document.createElement('script');
-  //           script.innerHTML = '';
-  //
-  //           script.type="text/javascript"
-  //           script.src = url;
-  //         // script.async = true;
-  //         // script.defer = true;
-  //           body.appendChild(script);
-  //   }
+  private loadAllCurrencies() {
+    this.currencyService.getAll().subscribe(Currencies => {
+      console.log(Currencies);
 
+      this.currencies=Currencies;
+
+    });
+
+    }
+    private setCurrency(id){
+      console.log(id);
+      this.currencyService.getById(id).subscribe( Currency=> {
+      this.currentCurrency=Currency;
+    });
+    }
+      get f() { return this.orderForm.controls; }
+    onSubmit(type) {
+      console.log(type);
+      if (type==='BUY'){
+        console.log('in');
+        this.submitted_buy= true;
+      }
+      else
+      this.submitted_sell= true;
+      this.loading = true;
+
+        // stop here if form is invalid
+        if (this.orderForm.invalid) {
+            return;
+        }
+        this.operation={"operation": type,
+                          "amount": this.orderForm.controls.Amount.value,
+                          "price": this.orderForm.controls.Price.value
+                          }
+        this.operationService.create(this.user.id,this.currentCurrency.id,this.operation)
+        .subscribe(
+            data => {
+                this.alertService.success('Order successful', true);
+
+            },
+            error => {
+                this.alertService.error(error);
+                this.loading = false;
+            });
+        // this.loading = true;
+        // this.authenticationService.login(this.f.username.value, this.f.password.value)
+        //     .pipe(first())
+        //     .subscribe(
+        //         data => {
+        //             this.router.navigate([this.returnUrl]);
+        //         },
+        //         error => {
+        //             this.alertService.error(error);
+        //             this.loading = false;
+        //         });
+    }
 }

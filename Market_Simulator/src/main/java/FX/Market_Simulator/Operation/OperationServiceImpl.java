@@ -30,7 +30,7 @@ public class OperationServiceImpl implements OperationService {
     
     @Override
     public Operation create(Operation operation, int user_id, int currency_id) {
-    	
+    	System.out.println(operation.getOperation());
     	operation.setCurrency(currencyRepository.findById(currency_id).orElseThrow(()
     			-> new EntityNotFoundException("Currency Not Found !")));
     	operation.setUser(userRepository.findById(user_id).orElseThrow(() 
@@ -43,18 +43,54 @@ public class OperationServiceImpl implements OperationService {
     	Currency currency = currencyRepository.findById(currency_id).orElseThrow(()
     			-> new EntityNotFoundException("Currency Not Found !"));
     	Map<String, Double> wallet =user.getWallet();
-    	if(wallet.containsKey(currency.getBase_currency()))
-    	if (wallet.get(currency.getBase_currency())>= operation.getAmount()) {
-    		wallet.put(currency.getBase_currency(), wallet.get(currency.getBase_currency())-operation.getAmount());
-    		if(wallet.containsKey(currency.getQuote_currency()))
-    			wallet.put(currency.getQuote_currency(),wallet.get(currency.getQuote_currency())+currency.getQuote()*operation.getAmount());
-    		else 
-    			wallet.put(currency.getQuote_currency(),currency.getQuote()*operation.getAmount());
-    		 return operationRepository.save(operation);
-    		}
+    	if(operation.getOperation().equals("BUY") ) {
+	    	if(wallet.containsKey(currency.getBase_currency())) {
+		    	
+		    		wallet.put(currency.getBase_currency(), wallet.get(currency.getBase_currency())-operation.getAmount());
+			    		if(wallet.containsKey(currency.getQuote_currency()))
+			    			wallet.put(currency.getQuote_currency(),wallet.get(currency.getQuote_currency())+currency.getQuote()*operation.getAmount());
+			    		else 
+			    			wallet.put(currency.getQuote_currency(),currency.getQuote()*operation.getAmount());
+			    		 return operationRepository.save(operation);
+	    		
+		    }
+	    	else {
+	    		
+		    			wallet.put(currency.getBase_currency(),-operation.getAmount());
+			    		if(wallet.containsKey(currency.getQuote_currency()))
+			    			wallet.put(currency.getQuote_currency(),wallet.get(currency.getQuote_currency())+currency.getQuote()*operation.getAmount());
+			    		else 
+			    			wallet.put(currency.getQuote_currency(),currency.getQuote()*operation.getAmount());
+			    		 return operationRepository.save(operation);
+			    }
+    	}
+    	else if(operation.getOperation().equals("SELL")) {//operation is SELL
+    		
+    	if(wallet.containsKey(currency.getBase_currency())) {
+	    	
+    		wallet.put(currency.getBase_currency(), wallet.get(currency.getBase_currency())+operation.getAmount());
+	    		if(wallet.containsKey(currency.getQuote_currency()))
+	    			wallet.put(currency.getQuote_currency(),wallet.get(currency.getQuote_currency())-currency.getQuote()*operation.getAmount());
+	    		else 
+	    			wallet.put(currency.getQuote_currency(),-currency.getQuote()*operation.getAmount());
+	    		 return operationRepository.save(operation);
+		
+	    }
+		else {
+			
+	    		wallet.put(currency.getBase_currency(),operation.getAmount());
+		    		if(wallet.containsKey(currency.getQuote_currency()))
+		    			wallet.put(currency.getQuote_currency(),wallet.get(currency.getQuote_currency())-currency.getQuote()*operation.getAmount());
+		    		else 
+		    			wallet.put(currency.getQuote_currency(),-currency.getQuote()*operation.getAmount());
+		    		 return operationRepository.save(operation);
+		    }
+	    	
+	    	}	
+    	else {
     		
     		 throw new BadRequestException("Operation cannot be done: Not enough credit");
-    	
+    	}
        
     }
 

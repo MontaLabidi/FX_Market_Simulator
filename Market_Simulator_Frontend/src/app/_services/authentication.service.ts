@@ -4,19 +4,22 @@ import { map } from 'rxjs/operators';
 
 import { environment } from '../../environments/environment';
 import { Router } from '@angular/router';
+import { User } from '../_models';
 
 @Injectable()
 export class AuthenticationService {
+    public currentUser:User;
     constructor(private http: HttpClient, private router: Router) { }
 
     login(username: string, password: string) {
-        return this.http.post<any>(`/api/authenticate`, { username: username, password: password })
+        return this.http.post<User>(`/api/authenticate`, { username: username, password: password })
             .pipe(map(user => {
                 // login successful if there's a jwt token in the response
                 if (user) {
                     // store user details and jwt token in local storage to keep user logged in between page refreshes
                     localStorage.setItem('currentUser', JSON.stringify(user));
-                    console.log(JSON.stringify(user));
+                    this.currentUser=user;
+                    console.log(JSON.stringify(this.currentUser.wallet));
                 }
 
                 return user;

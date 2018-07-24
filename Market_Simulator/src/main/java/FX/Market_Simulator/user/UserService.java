@@ -10,7 +10,7 @@ public interface UserService {
 
     ResponseEntity<?> create(User user);
 
-    User delete(int id);
+    ResponseEntity<String> delete(int id);
     
     void deleteAll();
     

@@ -15,8 +15,11 @@ import { LoginComponent } from './login';
 import { RegisterComponent } from './register';
 import { NavbarComponent } from './navbar/navbar.component';
 import { UserComponent } from './user/user.component';
-import { ExchangeComponent } from './exchange/exchange.component';;
-import { EditUserComponent } from './edit-user/edit-user.component'
+import { ExchangeComponent } from './exchange/exchange.component';
+import { EditUserComponent } from './edit-user/edit-user.component';
+import { CurrencyService } from './_services/currency.service';
+import { OperationService } from './_services/operation.service';
+import { ActivityComponent } from './activity/activity.component';
 @NgModule({
     imports: [
         BrowserModule,
@@ -33,12 +36,20 @@ import { EditUserComponent } from './edit-user/edit-user.component'
           NavbarComponent ,
           UserComponent ,
           ExchangeComponent ,
-          EditUserComponent],
+          EditUserComponent,
+            ActivityComponent
+
+          ],
+
+
+
     providers: [
         AuthGuard,
         AlertService,
         AuthenticationService,
         UserService,
+        CurrencyService,
+        OperationService,
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
 
