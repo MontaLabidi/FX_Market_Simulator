@@ -8,6 +8,7 @@ import { RegGuard } from 'src/app/_guards/reg.guard';
 import { UserComponent } from './user/user.component';
 import { ExchangeComponent } from './exchange/exchange.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
+import { ActivityComponent } from './activity/activity.component';
 
 const appRoutes: Routes = [
     { path: '', component: HomeComponent },
@@ -16,7 +17,7 @@ const appRoutes: Routes = [
     { path: 'register', component: RegisterComponent, canActivate: [RegGuard]},
     { path: 'exchange', component: ExchangeComponent },
     { path: 'editUser', component: EditUserComponent , canActivate: [AuthGuard]},
-
+    { path: 'activity', component: ActivityComponent },
 
     // otherwise redirect to home
     { path: '**', redirectTo: '' }

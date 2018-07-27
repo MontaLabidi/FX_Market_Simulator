@@ -1,3 +1,33 @@
-<p>
-  activity works!
-</p>
+<div class="container" style="margin-bottom:20px;">
+  <h4><i class="far fa-list-alt"></i> User Activities</h4>
+</div>
+<div class="home-data-table">
+  <table id="ac-data-table" class="table row-border hm-data-table table-hover" cellspacing="0" width="100%">
+      <thead>
+          <tr>
+              <th>Pair</th>
+              <th>Type</th>
+              <th>Quote</th>
+              <th>Current quote</th>
+              <th>Amount</th>
+              <th>Price</th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor="let operation of operations" class="clickable-row" >
+              <td>
+                  <div class="star-inner">
+                      <input id="star1" type="checkbox" name="time" />
+                      <label for="star1"><i class="fas fa-star"></i></label>
+                      {{operation.currency.base_currency}}/{{operation.currency.quote_currency}}
+                  </div>
+              </td>
+              <td><span class="green-color">{{operation.operation}}</span></td>
+              <td>{{operation.quote}}</td>
+              <td>{{operation.currency.quote}}</td>
+              <td>{{operation.amount}}</td>
+              <td>{{operation.price}}</td>
+          </tr>
+    </tbody>
+</table>
+</div>
