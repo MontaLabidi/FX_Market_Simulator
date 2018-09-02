@@ -7,6 +7,7 @@ import { UserService } from '../_services';
 import { Validators } from '@angular/forms';
 import { first } from 'rxjs/internal/operators/first';
 import { AlertService } from 'src/app/_services/alert.service';
+import { NavbarService } from 'src/app/_services/navbar.service';
 
 @Component({
   selector: 'app-edit-user',
@@ -21,10 +22,13 @@ export class EditUserComponent implements OnInit {
   constructor(private formBuilder: FormBuilder,
               private router: Router,
               private userService: UserService,
-              private alertService: AlertService) { }
+              private alertService: AlertService,
+              private nav : NavbarService,) { }
 
 
   ngOnInit() {
+
+    this.nav.hide();
     console.log(this.user);
     this.user= JSON.parse(localStorage.getItem('currentUser'));
       this.EditForm = this.formBuilder.group({

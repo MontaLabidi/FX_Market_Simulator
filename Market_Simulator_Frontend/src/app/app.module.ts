@@ -18,7 +18,7 @@ import { UserComponent } from './user/user.component';
 import { ExchangeComponent } from './exchange/exchange.component';
 import { EditUserComponent } from './edit-user/edit-user.component';
 import { CurrencyService } from './_services/currency.service';
-import { OperationService } from './_services/operation.service';
+import { TradeService } from './_services/trade.service';
 import { ActivityComponent } from './activity/activity.component';
 @NgModule({
     imports: [
@@ -49,7 +49,7 @@ import { ActivityComponent } from './activity/activity.component';
         AuthenticationService,
         UserService,
         CurrencyService,
-        OperationService,
+        TradeService,
         { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true },
         { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptor, multi: true },
 

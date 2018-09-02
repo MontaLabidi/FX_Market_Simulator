@@ -5,27 +5,61 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.Table;
+import javax.persistence.Transient;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import FX.Market_Simulator.Trade.TradeRepository;
+import FX.Market_Simulator.Wallet.WalletRepository;
 
 @Entity   
 @Table
 public class Currency {
 	
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private int id;
 	
-	private String base_currency ; //example EUR
+	private String baseCurrency ; //example EUR
 	
-	private String quote_currency;//example USD
+	private String quoteCurrency;//example USD
 	
     private double quote; // USD/EUR quote of .91 means that you’ll receive 0.91 euros for every US dollar you sell
     
     private double volume;
     
-    private double day_High;
+    private double dayClose;
+
+	private double dayHigh;
     
-    private double day_low;
+    private double dayLow;
     
+    private double dayOpen;
+    
+   
+    public double getDayClose() {
+		return dayClose;
+	}
+
+	public void setDayClose(double dayClose) {
+		this.dayClose = dayClose;
+	}
+
+	public double getDayHigh() {
+		return dayHigh;
+	}
+
+	public void setDayHigh(double dayHigh) {
+		this.dayHigh = dayHigh;
+	}
+
+	public double getDayOpen() {
+		return dayOpen;
+	}
+
+	public void setDayOpen(double dayOpen) {
+		this.dayOpen = dayOpen;
+	}
     
 	public double getVolume() {
 		return volume;
@@ -35,20 +69,12 @@ public class Currency {
 		this.volume = volume;
 	}
 
-	public double getDay_High() {
-		return day_High;
+	public double getDayLow() {
+		return dayLow;
 	}
 
-	public void setDay_High(double day_High) {
-		this.day_High = day_High;
-	}
-
-	public double getDay_low() {
-		return day_low;
-	}
-
-	public void setDay_low(double day_low) {
-		this.day_low = day_low;
+	public void setDayLow(double day_low) {
+		this.dayLow = day_low;
 	}
 
 	public int getId() {
@@ -63,23 +89,39 @@ public class Currency {
 		return quote;
 	}
 
-	public String getBase_currency() {
-		return base_currency;
+	public String getBaseCurrency() {
+		return baseCurrency;
 	}
 
-	public void setBase_currency(String base_currency) {
-		this.base_currency = base_currency;
+	public void setBaseCurrency(String base_currency) {
+		this.baseCurrency = base_currency;
 	}
 
-	public String getQuote_currency() {
-		return quote_currency;
+	public String getQuoteCurrency() {
+		return quoteCurrency;
 	}
 
-	public void setQuote_currency(String quote_currency) {
-		this.quote_currency = quote_currency;
+	public void setQuoteCurrency(String quote_currency) {
+		this.quoteCurrency = quote_currency;
 	}
 
-	public void setQuote(double quote) {
+	public void setQuote(double quote, TradeRepository tradeRepository,WalletRepository walletRepository) {
+		
+		double change;
+		if(this.quote - quote>0)
+			change=1;
+		else 
+			change=-1;
+    	tradeRepository.findAll().forEach((trade)->{
+    		System.out.println("in for each");
+    			if(trade.getType().equals("BUY"))
+    				trade.setProfit(trade.getProfit()-change*trade.getOnePipValue(),walletRepository);
+    			else {
+    				trade.setProfit(trade.getProfit()+change*trade.getOnePipValue(),walletRepository);
+    				System.out.println("in SELL"+change);}
+    			tradeRepository.save(trade);
+    			
+    			});  
 		this.quote = quote;
 	}
     

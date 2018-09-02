@@ -7,10 +7,14 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import FX.Market_Simulator.Trade.Trade;
+import FX.Market_Simulator.Wallet.Wallet;
+import FX.Market_Simulator.Wallet.WalletRepository;
+
 import java.nio.file.AccessDeniedException;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import javax.persistence.EntityNotFoundException;
 
@@ -25,15 +29,26 @@ public class UserServiceImpl implements UserService {
     }
     
     @Autowired
+    private WalletRepository walletRepository;
+    
+    @Autowired
     private PasswordEncoder passwordEncoder;
     
     @Override
     public ResponseEntity<?> create(User user){
+    	
     	if(userRepository.findByUsername(user.getUsername()) == null) {
     		user.setPassword(passwordEncoder.encode(user.getPassword()));
-    		Map<String, Double> wallet =user.getWallet();
-    		wallet.put("USD", 1000.0);
-        	userRepository.save(user);
+    		
+    		Wallet wallet= new Wallet();
+    		
+    		wallet.setBalance(1000000.00);
+    		wallet.setEquity(1000000.00);
+    		wallet.setFreeMargin(1000000.00);
+    		wallet.setMargin(0.00);
+    		wallet.setProfit(0.00);
+    		wallet.setUser(userRepository.save(user));
+        	walletRepository.save(wallet);
         	return new ResponseEntity<>(HttpStatus.OK);
         			}
     	return new ResponseEntity<String>("{\"message\": \"Username already used\"}",HttpStatus.NOT_ACCEPTABLE);
@@ -91,25 +106,25 @@ public class UserServiceImpl implements UserService {
     	if (passwordEncoder.matches(user.getPassword(),
 				DB_user.getPassword())) {
         	user.setPassword(passwordEncoder.encode(user.getPassword()));
-        	user.setWallet(DB_user.getWallet());
         	return userRepository.save(user); }
     	else 
     	 throw new AccessDeniedException("password is incorrect"); 
       }
 
 	@Override
-	public Map<String, Double> wallet(int id) {
+	public  Wallet wallet(int id) {
 		User user =userRepository.findById(id).orElseThrow(()
 				-> new EntityNotFoundException("User Not Found !"));
-		return user.getWallet();
+		Wallet wallet =walletRepository.findByuser(user).orElseThrow(()
+				-> new EntityNotFoundException("Wallet Not Found !"));
+		return wallet;
 	}
-
 	@Override
-	public  String wallet_currency(int id, String currency_id) {
+	public  List<Trade> trades(int id) {
 		User user =userRepository.findById(id).orElseThrow(()
 				-> new EntityNotFoundException("User Not Found !"));
-		return user.getWallet().get(currency_id).toString();
+		
+		return user.getTrades();
 	}
-
 	
 }

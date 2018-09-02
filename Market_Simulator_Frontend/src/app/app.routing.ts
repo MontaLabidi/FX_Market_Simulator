@@ -16,7 +16,7 @@ const appRoutes: Routes = [
     { path: 'login', component: LoginComponent, canActivate: [RegGuard] },
     { path: 'register', component: RegisterComponent, canActivate: [RegGuard]},
     { path: 'exchange', component: ExchangeComponent },
-    { path: 'editUser', component: EditUserComponent , canActivate: [AuthGuard]},
+    { path: 'editUser', component: EditUserComponent },
     { path: 'activity', component: ActivityComponent },
 
     // otherwise redirect to home

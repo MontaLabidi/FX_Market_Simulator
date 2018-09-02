@@ -3,8 +3,11 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
+
+import FX.Market_Simulator.Trade.Trade;
+import FX.Market_Simulator.Wallet.Wallet;
+
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 @EnableAutoConfiguration
@@ -49,14 +52,15 @@ public class UserController {
     public List<User> findAll(){
         return userService.findAll();
     }
+    @GetMapping(path ={"/user={id}/trades"})
+    public List<Trade> trades(@PathVariable("id") int id){
+        return userService.trades(id);
+    }
     
     @GetMapping(path ={"/user={id}/wallet"})
-    public  Map<String, Double> wallet(@PathVariable("id") int id){
+    public  Wallet wallet(@PathVariable("id") int id){
         return userService.wallet(id);
     }
     
-    @GetMapping(path ={"/user={id}/wallet/currency={currency_id}"})
-    public  String wallet(@PathVariable("id") int id, @PathVariable("currency_id") String currency_id){
-        return userService.wallet_currency(id, currency_id);
-    }
+ 
 }

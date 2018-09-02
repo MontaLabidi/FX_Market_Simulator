@@ -1,9 +1,11 @@
 package FX.Market_Simulator.Operation;
 
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
@@ -24,10 +26,12 @@ public class Operation {
 	public void setCurrency(Currency currency) {
 		this.currency = currency;
 	}
-	@ManyToOne
+	@ManyToOne(fetch = FetchType.LAZY)
+	@JoinColumn(name = "user_id")
     private User user; //the user who performed the operation
    
-    @ManyToOne
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "currency_id")
     private Currency currency;
     
     private double quote; // USD/EUR quote of .91 means that you’ll receive 0.91 euros for every US dollar you sell

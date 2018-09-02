@@ -1,9 +1,11 @@
 export class Currency {
     id: number;
-    base_currency: string;
-    quote_currency: string;
+    baseCurrency: string;
+    quoteCurrency: string;
     quote: number;
     volume:number;
-    day_High: number;
-    day_low:number;
+    dayHigh: number;
+    dayLow:number;
+    dayOpen: number;
+    dayClose: number;
   }

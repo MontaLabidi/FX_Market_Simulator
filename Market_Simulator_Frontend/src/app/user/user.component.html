@@ -8,6 +8,10 @@
           </div>
           <table class="table table-striped">
             <tbody>
+              <tr >
+                <th>Joined </th>
+                <td>{{user.createdOn | date: 'EEE, MMM d, y, h:mm:ss a'}}</td>
+              </tr>
             <tr >
               <th>First name</th>
               <td>{{user.firstName}}</td>
@@ -36,22 +40,31 @@
             <h4><i class="far fa-credit-card"></i> Wallet</h4>
           </div>
           <table class="table table-borderless ">
-            <thead >
-            <tr>
-            <th>Currency</th>
-            <th>Amount</th>
+          <tbody>
+            <tr >
+              <th>Balance </th>
+              <td>{{wallet?.balance}} USD</td>
             </tr>
-            </thead>
-            <tbody>
-            <tr *ngFor="let key of keys" >
-              <th>{{key}}</th>
-              <td>{{wallet[key]}}</td>
-
+            <tr >
+              <th>Equity </th>
+              <td>{{wallet?.equity}} USD</td>
+            </tr>
+            <tr >
+              <th>Margin </th>
+              <td>{{wallet?.margin}} USD</td>
+            </tr>
+            <tr >
+              <th>Free Margin </th>
+              <td>{{wallet?.freeMargin}} USD</td>
+            </tr>
+            <tr >
+              <th>Profit </th>
+              <td>{{wallet?.profit}} USD</td>
             </tr>
             </tbody>
           </table>
           <button class="btn btn-outline-info float-left" [routerLink]="['/activity']">
-               <i class="far fa-list-alt"></i> Recent Activities</button>
+               <i class="far fa-list-alt"></i> Open Positions</button>
          <button class="btn btn-outline-info float-right" [routerLink]="['/exchange']">
                     <i class="far fa-chart-bar"></i> Exchange</button>
 

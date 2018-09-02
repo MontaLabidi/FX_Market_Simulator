@@ -1,10 +1,12 @@
 package FX.Market_Simulator.user;
 
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
+
+import FX.Market_Simulator.Trade.Trade;
+import FX.Market_Simulator.Wallet.Wallet;
 
 public interface UserService {
 
@@ -22,8 +24,9 @@ public interface UserService {
 
 	ResponseEntity<?> authenticate(User user) throws Exception;
 
-	Map<String, Double> wallet(int id);
+	Wallet wallet(int id);
 
-	String wallet_currency(int id, String currency_id);
+	List<Trade> trades(int id);
+
 
 	}

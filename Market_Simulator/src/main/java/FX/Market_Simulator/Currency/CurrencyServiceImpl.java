@@ -1,6 +1,8 @@
 package FX.Market_Simulator.Currency;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 
@@ -18,6 +20,17 @@ public class CurrencyServiceImpl implements CurrencyService {
     @Override
     public Currency create(Currency Currency) {
         return currencyRepository.save(Currency);
+    }
+    
+    @Override
+    public ResponseEntity<String> Robot(int id) {
+    	Currency currency=currencyRepository.findById(id).orElseThrow(() 
+    			-> new EntityNotFoundException("Currency Not Found !"));
+    	
+       return new ResponseEntity<>("{\"open\": "+currency.getDayOpen()+","
+       								+ "\"low\": "+currency.getDayLow()+","
+       								+ "\"high\": "+currency.getDayHigh()+","
+       								+ "\"close\": "+currency.getDayClose()+" }",HttpStatus.OK);
     }
 
     @Override

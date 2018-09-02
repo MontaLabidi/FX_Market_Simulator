@@ -5,6 +5,7 @@ import { NavbarService } from 'src/app/_services/navbar.service';
 import { Router } from '@angular/router';
 import { AuthenticationService } from 'src/app/_services/authentication.service';
 import { AlertService } from 'src/app/_services/alert.service';
+import { Wallet } from '../_models/wallet';
 
 @Component({
   selector: 'app-user',
@@ -12,9 +13,9 @@ import { AlertService } from 'src/app/_services/alert.service';
   styleUrls: ['./user.component.css']
 })
 export class UserComponent implements OnInit {
-
+  date:any;
   user: User;
-  wallet :any;
+  wallet :Wallet;
   keys = [];
   constructor(private router: Router,
     private userService: UserService,
@@ -32,8 +33,7 @@ export class UserComponent implements OnInit {
       this.userService.wallet(this.user.id).subscribe(
         wallet=> {
           this.wallet =wallet;
-        this.keys =Object.keys(this.wallet);
-        console.log(this.keys);}
+        }
       );
 
 

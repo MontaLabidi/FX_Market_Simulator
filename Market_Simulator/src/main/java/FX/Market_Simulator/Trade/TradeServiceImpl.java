@@ -1,12 +1,12 @@
-package FX.Market_Simulator.Operation;
+package FX.Market_Simulator.Trade;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
 import FX.Market_Simulator.Currency.Currency;
 import FX.Market_Simulator.Currency.CurrencyRepository;
-import FX.Market_Simulator.Trade.Trade;
-import FX.Market_Simulator.Trade.TradeRepository;
 import FX.Market_Simulator.Wallet.Wallet;
 import FX.Market_Simulator.Wallet.WalletRepository;
 import FX.Market_Simulator.user.User;
@@ -19,72 +19,68 @@ import javax.persistence.EntityNotFoundException;
 import javax.ws.rs.BadRequestException;
 
 @Service
-public class OperationServiceImpl implements OperationService {
+public class TradeServiceImpl implements TradeService {
 
-    @Autowired
-    private OperationRepository operationRepository;
-    
-    @Autowired
-    private WalletRepository walletRepository;
-    
-    @Autowired
-    private UserRepository userRepository;
-
-    @Autowired
-    private CurrencyRepository currencyRepository;
-    
-    @Autowired
-    private TradeRepository tradeRepository;
-    
+	 @Autowired
+	private WalletRepository walletRepository;
+	
+	@Autowired
+	private UserRepository userRepository;
+	
+	@Autowired
+	private CurrencyRepository currencyRepository;
+	
+	@Autowired
+	private TradeRepository tradeRepository;
+	    
+       
     @Override
-    public Operation create(Operation operation, int user_id, int currency_id) {
-    	
+    public ResponseEntity<?> create(Trade trade, int user_id, int currency_id) {
     	User user = userRepository.findById(user_id).orElseThrow(()
     			-> new EntityNotFoundException("User Not Found !"));
     	Currency currency = currencyRepository.findById(currency_id).orElseThrow(()
     			-> new EntityNotFoundException("Currency Not Found !"));
-    	System.out.println("*************************"+user.getId());
+    	//System.out.println("*************************"+user.getId());
     	Wallet wallet =walletRepository.findByuser(user).orElseThrow(()
 				-> new EntityNotFoundException("Wallet Not Found !"));
     	
-    	operation.setCurrency(currency);
-    	operation.setUser(user);
-    	operation.setQuote(currency.getQuote());
+    	trade.setCurrency(currency);
+    	trade.setUser(user);
+    	trade.setPrice(currency.getQuote());
     	
  
-    	
     
     	double amountUSD ;
     	double onePointValue;
-    	if(operation.getOperation().equals("BUY")) {
+    	if(trade.getType().equals("BUY")) {
 	    	if(currency.getQuoteCurrency().equals("USD"))
-	    		amountUSD=operation.getAmount()*currency.getQuote();
+	    		amountUSD=trade.getAmount()*currency.getQuote();
 	    	else if(currency.getBaseCurrency().equals("USD"))
-	    		amountUSD=operation.getAmount();
+	    		amountUSD=trade.getAmount();
 	    	else {
 	    		if (currencyRepository.searchCurrency(currency.getQuoteCurrency(),"USD").isPresent()) {
 	    			Currency currencyRate = currencyRepository.searchCurrency(currency.getQuoteCurrency(),"USD").get();
-	    			amountUSD=operation.getAmount()*currencyRate.getQuote();   		
+	    			amountUSD=trade.getAmount()*currencyRate.getQuote();   		
 	    			}
 	    		else  {
 	    			Currency currencyRate = currencyRepository.searchCurrency("USD", currency.getQuoteCurrency()).get();
-	    			amountUSD=operation.getAmount()/currencyRate.getQuote();   		
+	    			amountUSD=trade.getAmount()/currencyRate.getQuote();   		
 	    		}
 	    	}
     	}		
     	else {
     		if(currency.getBaseCurrency().equals("USD"))
-	    		amountUSD=operation.getAmount()/currency.getQuote();
+	    		amountUSD=trade.getAmount()/currency.getQuote();
 	    	else if(currency.getQuoteCurrency().equals("USD"))
-	    		amountUSD=operation.getAmount();
+	    		amountUSD=trade.getAmount();
 	    	else {
 	    		if (currencyRepository.searchCurrency(currency.getBaseCurrency(),"USD").isPresent()) {
 	    			Currency currencyRate = currencyRepository.searchCurrency(currency.getQuoteCurrency(),"USD").get();
-	    			amountUSD=operation.getAmount()*currencyRate.getQuote();   		
+	    			amountUSD=trade.getAmount()*currencyRate.getQuote();   		
 	    			}
 	    		else  {
 	    			Currency currencyRate = currencyRepository.searchCurrency("USD", currency.getBaseCurrency()).get();
-	    			amountUSD=operation.getAmount()/currencyRate.getQuote();   		
+	    			amountUSD=trade.getAmount()/currencyRate.getQuote();   		
 	    		}
 	    	}
     		
@@ -96,19 +92,15 @@ public class OperationServiceImpl implements OperationService {
     		wallet.setMargin(wallet.getMargin()+amountUSD/2);
     		
     		if (currency.getBaseCurrency().equals("JPY")||currency.getQuoteCurrency().equals("JPY")) 
-        		onePointValue = operation.getAmount()*0.01;
+        		onePointValue = trade.getAmount()*0.01;
         	else 
-        		onePointValue = operation.getAmount()*0.0001 ;
+        		onePointValue = trade.getAmount()*0.0001 ;
         		
     		
     	}
-    	Trade trade = new Trade ();
-    	trade.setUser(user);
-    	trade.setCurrency(currency);
-    	trade.setAmount(operation.getAmount());
+    	
     	trade.setMargin(amountUSD/2);
-    	trade.setPrice(currency.getQuote());
-    	trade.setType(operation.getOperation());
+    	
     	
     	if(currency.getQuoteCurrency().equals("USD"))
     		trade.setOnePipValue(onePointValue);
@@ -124,58 +116,70 @@ public class OperationServiceImpl implements OperationService {
     			trade.setOnePipValue(onePointValue/currencyRate.getQuote());   		
     		}
     	}			
+    	
     	tradeRepository.save(trade);
-		
+    	
 		if (currency.getBaseCurrency().equals("JPY")||currency.getQuoteCurrency().equals("JPY")) {
-    		if(operation.getOperation().equals("SELL"))
+    		if(trade.getType().equals("SELL"))
     			currency.setQuote(currency.getQuote()+0.01,tradeRepository,walletRepository);
     		else
     		currency.setQuote(currency.getQuote()-0.01,tradeRepository,walletRepository);
 		}
 			
     	else {
-    		if(operation.getOperation().equals("SELL"))
+    		if(trade.getType().equals("SELL"))
     			currency.setQuote(currency.getQuote()+0.00010,tradeRepository,walletRepository);
     		else
     			currency.setQuote(currency.getQuote()-0.00010,tradeRepository,walletRepository);
     		}
-    	return operationRepository.save(operation);
+		currencyRepository.save(currency);
+        return new ResponseEntity<>("{\"message\": \"Trade made !\"}",HttpStatus.OK);
     	
     }
 
-    @Override
-    public Operation delete(int id) {
-    	
-        Operation Operation = operationRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Operation Not Found !"));
-        operationRepository.deleteById(id);
-        return Operation;
-    }
-    @Override
-    public List<Operation> findByUserId(int userid) {
-    	return operationRepository.findByUserId(userid);
-    }
 
     @Override
-    public List<Operation> findAll() {
-    	List<Operation> operations = new ArrayList<>();
-    	operationRepository.findAll().forEach(operations::add);    	
-        return operations;
+    public List<Trade>  closeTrade(int id) {
+    	Trade trade = tradeRepository.findById(id).orElseThrow(()
+    			-> new EntityNotFoundException("Trade Not Found !"));
+    	User user =trade.getUser();
+    	Wallet wallet=user.getWallet();
+    	System.out.println("*****************************"+wallet.getBalance());
+		wallet.setBalance(wallet.getBalance()+trade.getProfit());
+		wallet.setProfit(wallet.getProfit()-trade.getProfit());
+		wallet.setFreeMargin(wallet.getFreeMargin()+trade.getMargin());
+		wallet.setMargin(wallet.getMargin()-trade.getMargin());
+		System.out.println("*****************************bfro walletsave");
+		walletRepository.save(wallet);
+		System.out.println("*****************************after walletsave");
+    	tradeRepository.deleteById(id);
+        return user.getTrades();
+    }
+    
+    @Override
+    public Trade delete(int id) {
+    	
+        Trade trade = tradeRepository.findById(id).orElseThrow(() -> new EntityNotFoundException("Trade Not Found !"));
+        tradeRepository.deleteById(id);
+        return trade;
+    }
+    
+    @Override
+    public List<Trade> findAll() {
+    	List<Trade> trades = new ArrayList<>();
+    	tradeRepository.findAll().forEach(trades::add);    	
+        return trades;
     }
     
     @Override
     public void deleteAll() {
-         operationRepository.deleteAll();
+         tradeRepository.deleteAll();
          return;
          }
+   
     @Override
-    public void deleteAllByUser(List<Operation>  entities) {
-        operationRepository.deleteAll(entities);
-        return;
-        }
-    
-    @Override
-    public Optional<Operation> findById(int id) {
-        return operationRepository.findById(id);
+    public Optional<Trade> findById(int id) {
+        return tradeRepository.findById(id);
         
     }
 

@@ -24,13 +24,13 @@
                             <div class="star-inner">
                                 <input id="star1" type="checkbox" name="time" />
                                 <label for="star1"><i class="fas fa-star"></i></label>
-                                {{currency.base_currency}}/{{currency.quote_currency}}
+                                {{currency.baseCurrency}}/{{currency.quoteCurrency}}
                             </div>
                         </td>
                         <td><span class="green-color">{{currency.quote}}</span></td>
                         <td><span class="red-color">0</span></td>
-                        <td>{{currency.day_High}}</td>
-                        <td>{{currency.day_low}}</td>
+                        <td>{{currency.dayHigh}}</td>
+                        <td>{{currency.dayLow}}</td>
                         <td>{{currency.volume}}</td>
                     </tr>
               </tbody>
@@ -54,10 +54,11 @@
                 <div class="row">
                     <div class="col-md-6 col-sm-6 col-xs-12">
                       <form [formGroup]="orderForm" (ngSubmit)="onSubmit('BUY')">
-                        <h6 class="title"><strong>buy {{currentCurrency?.base_currency}}</strong><span >{{currentCurrency?.quote_currency}}: {{currentCurrency?.quote}}</span></h6>
+                        <h6 class="title"><strong>Buy {{currentCurrency?.baseCurrency}}</strong><span >{{currentCurrency?.quoteCurrency}}: {{currentCurrency?.quote}}</span></h6>
                         <div class="form-group">
                             <label for="">Price</label>
                             <input type="number" class="form-control" formControlName="Price" placeholder="{{currentCurrency?.quote_currency}}"  [ngClass]="{ 'is-invalid': submitted_buy && f.Price.errors }">
+                            <div >*0 Market price</div>
                             <div *ngIf="submitted_buy && f.Price.errors" class="invalid-feedback">
                                 <div *ngIf="f.Price.errors.required">Price is required</div>
                             </div>
@@ -77,10 +78,11 @@
 
                     <div class="col-md-6 col-sm-6 col-xs-12">
                       <form [formGroup]="orderForm" (ngSubmit)="onSubmit('SELL')">
-                        <h6 class="title"><strong>Sell {{currentCurrency?.base_currency}}</strong><span >{{currentCurrency?.quote_currency}}: {{currentCurrency?.quote}}</span></h6>
+                        <h6 class="title"><strong>Sell {{currentCurrency?.baseCurrency}}</strong><span >{{currentCurrency?.quoteCurrency}}: {{currentCurrency?.quote}}</span></h6>
                         <div class="form-group">
                             <label for="">Price</label>
                             <input type="number" class="form-control" formControlName="Price" placeholder="{{currentCurrency?.quote_currency}}" [ngClass]="{ 'is-invalid': submitted_sell && f.Price.errors }">
+                            <div >*0 Market price</div>
                             <div *ngIf="submitted_sell && f.Price.errors" class="invalid-feedback">
                                 <div *ngIf="f.Price.errors.required">Price is required</div>
                             </div>

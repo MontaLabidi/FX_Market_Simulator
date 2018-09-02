@@ -1,10 +1,11 @@
 ﻿export class User {
-    wallet: any;
+
     id: number;
+    createdOn: Date;
     username: string;
     password: string;
     firstName: string;
     lastName: string;
     email: string;
-
+    wallet: any;
 }

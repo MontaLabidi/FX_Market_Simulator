@@ -1,6 +1,8 @@
 package FX.Market_Simulator.Currency;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import javax.persistence.EntityNotFoundException;
@@ -33,6 +35,11 @@ public class CurrencyController {
     public Currency findById(@PathVariable("id") int id) throws Exception{
     	return currencyService.findById(id).orElseThrow(() -> new EntityNotFoundException("Currency Not Found !"));
     	
+    }
+    
+    @GetMapping(path = {"/getcurrency={id}"})
+    public ResponseEntity<String> Robot(@PathVariable("id") int id) throws Exception{
+    	return currencyService.Robot(id);
     }
        
     @DeleteMapping(path = {"/currency={id}"})

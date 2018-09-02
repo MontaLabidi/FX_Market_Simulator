@@ -4,7 +4,7 @@ import { NavbarService } from '../_services';
 import { CurrencyService } from '../_services/currency.service';
 import { first } from 'rxjs/internal/operators/first';
 import { Currency } from '../_models';
-import { OperationService } from '../_services/operation.service';
+import { TradeService } from '../_services/trade.service';
 import { Validators } from '@angular/forms';
 import { FormBuilder } from '@angular/forms';
 import { FormGroup } from '@angular/forms';
@@ -17,7 +17,7 @@ import { AlertService } from 'src/app/_services/alert.service';
   styleUrls: ['./exchange.component.css']
 })
 export class ExchangeComponent implements OnInit {
-  operation: { "operation": any; "amount": any; "price": any; };
+  trade: { "type": any; "amount": any; "price": any; };
   user: User;
   public currencies: Currency[];
   public currentCurrency: Currency;
@@ -31,12 +31,16 @@ export class ExchangeComponent implements OnInit {
    private formBuilder: FormBuilder,
    private currencyService:CurrencyService,
    private alertService: AlertService,
-   private operationService:OperationService) {
+   private tradeService:TradeService) {
 }
   ngOnInit() {
     this.user = JSON.parse(localStorage.getItem('currentUser'));
-    this.currencyService.getById(1).subscribe( Currency=>
-    this.currentCurrency=Currency
+    this.currencyService.getById(1).subscribe( Currency=>{
+
+      console.log(Currency);
+        this.currentCurrency=Currency;
+    }
+
     );
     this.loadAllCurrencies();
     this.nav.hide();
@@ -77,11 +81,11 @@ export class ExchangeComponent implements OnInit {
         if (this.orderForm.invalid) {
             return;
         }
-        this.operation={"operation": type,
+        this.trade={"type": type,
                           "amount": this.orderForm.controls.Amount.value,
                           "price": this.orderForm.controls.Price.value
                           }
-        this.operationService.create(this.user.id,this.currentCurrency.id,this.operation)
+        this.tradeService.create(this.user.id,this.currentCurrency.id,this.trade)
         .subscribe(
             data => {
                 this.alertService.success('Order successful', true);
